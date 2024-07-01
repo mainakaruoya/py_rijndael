@@ -1,7 +1,7 @@
 ### Advanced Encryption Standard (AES)
 This is a CLI-based implementation of the core AES algorithm, **Rijndael,** in Python. It takes a plaintext message, as well as the key size (128, 192, or 256 bits) to use, and then encrypts and decrypts the message, printing out the ciphertext, and the subsequent decrypted ciphertext (i.e., the original plaintext).
 
-This implementation has endeavored to follow what is defined in the US NIST Federal Information Processing Standards (FIPS) 197 plublication, found [here](https://doi.org/10.6028/NIST.FIPS.197-upd1) (link is to a PDF document; alternatively, the publication's web page is [here](https://csrc.nist.gov/pubs/fips/197/final)).
+This implementation has endeavored to follow what is defined in the US NIST Federal Information Processing Standards (FIPS) 197 publication, found [here](https://doi.org/10.6028/NIST.FIPS.197-upd1) (link is to a PDF document; alternatively, the publication's web page is [here](https://csrc.nist.gov/pubs/fips/197/final)).
 
 **Note:** it only accepts characters that can be represented as values between 0-255.
 
