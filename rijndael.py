@@ -338,7 +338,8 @@ def rijndaelInverseCipher(ciphertext: list, numberOfRounds: int, keySchedule: li
 # Step 7: Remove padding - if any - and decode the message.
 # To show the resultant ciphertext, this function is also called on the ciphertext message
 # All along we are dealing with a list of integers representing our plaintext or ciphertext bytes. We need to unpack the given list to recover our bytes, and subsequently decode the corresponding values to retrieve our original message.
-def decodeMessageBytes(plaintextLength: int, messageToDecode: list[list[list[int]]]) -> str:
+# The boolean value is to detect if we are dealing with ciphertext or not - it is set to false where we are simply detecting the ciphertext
+def decodeMessageBytes(plaintextLength: int, messageToDecode: list[list[list[int]]], isPlaintext: bool) -> str:
     decodedText = []
     print("\n---DECODING BYTES---\n")
 
@@ -347,9 +348,9 @@ def decodeMessageBytes(plaintextLength: int, messageToDecode: list[list[list[int
         for listEntry in entry:
             for character in listEntry:
                 decodedText.append(character.to_bytes())
-
-    # Remove padding, if any, to get back the original string
-    if plaintextLength % 16 != 0:
+    
+    # Remove padding from the decoded values, if any, to get back the original string
+    if isPlaintext and plaintextLength % 16 != 0:
         return b''.join(decodedText).decode("utf-8", "ignore")[:-(16 - (plaintextLength % 16))]
     else:
         return b''.join(decodedText).decode("utf-8", "ignore")
@@ -376,10 +377,10 @@ def encryptAndDecryptPlaintext():
     ciphertext = rijndaelForwardCipher(chunkedList(partitionedPlaintext), rounds, chunkedList(expandedKey))
 
     # To show users that the message has actually been encrypted, we add this line
-    print(f"Our ciphertext is:\n{Style.BRIGHT}{Fore.LIGHTBLUE_EX}{decodeMessageBytes(plaintextLength, ciphertext)}{Style.RESET_ALL}")
+    print(f"Our ciphertext is:\n{Style.BRIGHT}{Fore.LIGHTBLUE_EX}{decodeMessageBytes(plaintextLength, ciphertext, isPlaintext=False)}{Style.RESET_ALL}")
 
     decryptedPlaintext = rijndaelInverseCipher(ciphertext, rounds, chunkedList(expandedKey))
-    decodedMessage = decodeMessageBytes(plaintextLength, decryptedPlaintext)
+    decodedMessage = decodeMessageBytes(plaintextLength, decryptedPlaintext, isPlaintext=True)
     print(f"Decoded plaintext:{Style.BRIGHT}{Fore.GREEN}\n{decodedMessage}{Style.RESET_ALL}")
 
 
